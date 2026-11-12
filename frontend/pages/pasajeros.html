@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de pasajeros | AIRCOLOMBIA</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/booking.css">
+</head>
+<body class="results-page">
+
+<header class="results-header">
+    <a href="../index.html" class="results-brand">
+        <img src="../assets/images/logo-aircolombia.png" alt="AIRCOLOMBIA">
+    </a>
+    <a href="resultados.html" class="back-link">← Volver a vuelos</a>
+</header>
+
+<main class="passenger-container">
+    <section class="passenger-banner">
+        <span class="eyebrow">AIRCOLOMBIA · GESTIÓN DE RESERVAS</span>
+        <h1>Datos de los pasajeros</h1>
+        <p>Completa la información de las personas que realizarán el viaje.</p>
+    </section>
+
+    <div class="results-progress">
+        <span>1. Vuelos</span>
+        <span class="progress-active">2. Pasajeros</span>
+        <span>3. Servicios</span>
+        <span>4. Pago</span>
+    </div>
+
+    <section class="passenger-summary">
+        <div>
+            <span class="eyebrow">RESUMEN DEL VIAJE</span>
+            <h2 id="routeSummary">Ruta seleccionada</h2>
+            <p id="flightSummary"></p>
+        </div>
+        <div class="passenger-total">
+            <small>Total de pasajeros</small>
+            <strong id="passengerCount">0</strong>
+        </div>
+    </section>
+
+    <form id="passengerForm" novalidate>
+        <div id="passengerForms"></div>
+
+        <section class="buyer-section">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">INFORMACIÓN DE COMPRA</span>
+                    <h2>Datos del comprador</h2>
+                    <p>Persona responsable de realizar la reserva y el pago.</p>
+                </div>
+            </div>
+
+            <label class="buyer-checkbox">
+                <input type="checkbox" id="buyerIsPassenger" checked>
+                El comprador también es uno de los pasajeros.
+            </label>
+
+            <div id="buyerFields" class="buyer-fields">
+                <div class="form-field">
+                    <label for="buyerName">Nombre completo</label>
+                    <input type="text" id="buyerName" placeholder="Nombre y apellidos">
+                </div>
+
+                <div class="form-field">
+                    <label for="buyerDocument">Documento de identidad</label>
+                    <input type="text" id="buyerDocument" placeholder="Número de documento">
+                </div>
+
+                <div class="form-field">
+                    <label for="buyerEmail">Correo electrónico</label>
+                    <input type="email" id="buyerEmail" placeholder="correo@ejemplo.com">
+                </div>
+
+                <div class="form-field">
+                    <label for="buyerPhone">Teléfono</label>
+                    <input type="tel" id="buyerPhone" placeholder="Número de contacto">
+                </div>
+            </div>
+        </section>
+
+        <div id="passengerError" class="passenger-error hidden"></div>
+
+        <div class="passenger-actions">
+            <a href="resultados.html" class="secondary-button">Volver</a>
+            <button type="submit" class="continue-button">
+                Guardar pasajeros y continuar →
+            </button>
+        </div>
+    </form>
+</main>
+
+<script type="module" src="../js/modules/pasajeros.js"></script>
+</body>
+</html>

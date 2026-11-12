@@ -1,0 +1,214 @@
+
+/* ==========================================
+   AIRCOLOMBIA SIGOA - CONFIRMACIÓN
+   ========================================== */
+
+.confirmation-container {
+    width: min(950px, 90%);
+    margin: 35px auto 65px;
+}
+
+.confirmation-success {
+    text-align: center;
+    background: linear-gradient(120deg, #570b1b, #300611);
+    color: white;
+    padding: 40px 25px;
+    border-radius: 15px;
+}
+
+.success-icon {
+    width: 65px;
+    height: 65px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 20px;
+    background: #fff;
+    color: #267b4a;
+    border-radius: 50%;
+    font-size: 36px;
+    font-weight: 800;
+}
+
+.confirmation-success h1 {
+    color: white;
+    font-size: 32px;
+    margin: 12px 0;
+}
+
+.confirmation-success p {
+    color: #eadde0;
+    margin: 0;
+}
+
+.confirmation-status {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 9px 16px;
+    border-radius: 25px;
+    background: rgba(255,255,255,.14);
+    color: #f1d9a1;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.confirmation-code-card,
+.confirmation-card {
+    background: white;
+    border: 1px solid #eee8e3;
+    border-radius: 13px;
+    padding: 24px;
+    margin-top: 20px;
+}
+
+.confirmation-code-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-color: #d6ac60;
+}
+
+.confirmation-code-card h2 {
+    color: #570b1b;
+    font-size: 28px;
+    letter-spacing: 3px;
+    margin: 8px 0;
+}
+
+.confirmation-code-card p {
+    color: #777;
+    font-size: 13px;
+    margin: 0;
+}
+
+.copy-button {
+    padding: 12px 16px;
+    border: 1px solid #570b1b;
+    border-radius: 7px;
+    background: white;
+    color: #570b1b;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.confirmation-card h2 {
+    color: #570b1b;
+    margin: 9px 0 18px;
+    font-size: 21px;
+}
+
+.confirmation-detail {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0eae6;
+    font-size: 13px;
+}
+
+.confirmation-detail:last-child {
+    border-bottom: none;
+}
+
+.confirmation-detail span {
+    color: #777;
+}
+
+.confirmation-detail strong {
+    color: #30252a;
+    text-align: right;
+}
+
+.ticket-item {
+    background: #faf7f4;
+    border: 1px dashed #c69d55;
+    border-radius: 10px;
+    padding: 17px;
+    margin-top: 12px;
+}
+
+.ticket-item h3 {
+    color: #570b1b;
+    margin: 0 0 12px;
+}
+
+.ticket-number {
+    color: #570b1b;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.ticket-item p {
+    margin: 7px 0;
+    font-size: 13px;
+    color: #66595c;
+}
+
+.confirmation-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.confirmation-disclaimer {
+    text-align: center;
+    color: #888;
+    font-size: 11px;
+    line-height: 1.6;
+    margin: 25px auto;
+    max-width: 650px;
+}
+
+@media print {
+    body {
+        background: white !important;
+    }
+
+    .results-header,
+    .confirmation-actions,
+    .copy-button {
+        display: none !important;
+    }
+
+    .confirmation-container {
+        width: 100%;
+        margin: 0;
+    }
+
+    .confirmation-card,
+    .confirmation-code-card,
+    .confirmation-success {
+        break-inside: avoid;
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .confirmation-container {
+        width: 92%;
+    }
+
+    .confirmation-success {
+        padding: 30px 18px;
+    }
+
+    .confirmation-success h1 {
+        font-size: 25px;
+    }
+
+    .confirmation-code-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .confirmation-actions {
+        flex-direction: column;
+    }
+
+    .confirmation-actions button {
+        width: 100%;
+    }
+}

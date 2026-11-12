@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#570b1b">
+
+    <title>AirColombia | Reserva tu próximo vuelo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/booking.css">
+
+    <script type="module" src="js/modules/busqueda.js"></script>
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header class="site-header">
+
+        <a class="brand" href="index.html">
+            <img src="assets/images/logo-aircolombia.png" alt="AirColombia">
+        </a>
+
+        <nav class="main-nav">
+            <a class="active" href="index.html">Vuelos</a>
+            <a href="pages/resultados.html">Mi itinerario</a>
+            <a href="pages/gestionar-reserva.html">Gestiona tu viaje</a>
+            <a href="pages/login.html">Iniciar sesión</a>
+        </nav>
+
+        <span class="header-tag">
+            SIGOA · EXPERIENCIA DE VIAJE
+        </span>
+
+    </header>
+
+
+    <!-- PORTADA -->
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-inner">
+
+            <div class="hero-copy">
+
+                <span class="eyebrow">
+                    EL CIELO NOS UNE
+                </span>
+
+                <h1>
+                    Hay destinos que<br>
+                    <em>te están esperando.</em>
+                </h1>
+
+                <p>
+                    Encuentra tu próximo destino y diseña
+                    un viaje a tu manera.
+                </p>
+
+                <a class="hero-cta" href="#buscar">
+                    Encuentra tu próximo vuelo
+                    <span>↓</span>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-caption">
+            AIRCOLOMBIA · CONECTANDO DESTINOS
+        </div>
+
+    </section>
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="page-wrap">
+
+        <!-- FORMULARIO DE BÚSQUEDA -->
+        <section class="booking-panel" id="buscar">
+
+            <div class="booking-title">
+
+                <div>
+                    <span class="eyebrow wine">
+                        PLANEA TU VIAJE
+                    </span>
+
+                    <h2>¿A dónde quieres ir?</h2>
+
+                    <p>
+                        Consulta alternativas disponibles
+                        según tu itinerario.
+                    </p>
+                </div>
+
+                <div class="booking-emblem">✈</div>
+
+            </div>
+
+
+            <form id="searchForm" novalidate>
+
+                <!-- TIPO DE VIAJE -->
+                <div class="trip-tabs">
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="trip"
+                            value="oneway"
+                            checked
+                        >
+                        <span>Solo ida</span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="trip"
+                            value="round"
+                        >
+                        <span>Ida y regreso</span>
+                    </label>
+
+                </div>
+
+
+                <!-- ORIGEN Y DESTINO -->
+                <div class="search-fields">
+
+                    <label class="field">
+                        <span>Ciudad de origen</span>
+
+                        <select id="origin" required>
+                            <option value="">
+                                Selecciona origen
+                            </option>
+                        </select>
+                    </label>
+
+
+                    <button
+                        type="button"
+                        id="swapCities"
+                        class="swap-button"
+                        aria-label="Intercambiar ciudades"
+                        title="Intercambiar ciudades"
+                    >
+                        ⇄
+                    </button>
+
+
+                    <label class="field">
+                        <span>Ciudad de destino</span>
+
+                        <select id="destination" required>
+                            <option value="">
+                                Selecciona destino
+                            </option>
+                        </select>
+                    </label>
+
+
+                    <label class="field">
+                        <span>Fecha de salida</span>
+
+                        <input
+                            id="departure"
+                            type="date"
+                            required
+                        >
+                    </label>
+
+
+                    <label
+                        class="field hidden"
+                        id="returnWrap"
+                    >
+                        <span>Fecha de regreso</span>
+
+                        <input
+                            id="returnDate"
+                            type="date"
+                        >
+                    </label>
+
+                </div>
+
+
+                <!-- PASAJEROS Y CLASE -->
+                <div class="search-bottom">
+
+                    <div class="traveller-fields">
+
+                        <label class="compact-field">
+                            <span>
+                                Adultos
+                                <small>12+ años</small>
+                            </span>
+
+                            <input
+                                id="adults"
+                                type="number"
+                                min="1"
+                                max="9"
+                                value="1"
+                                required
+                            >
+                        </label>
+
+
+                        <label class="compact-field">
+                            <span>
+                                Niños
+                                <small>2–11 años</small>
+                            </span>
+
+                            <input
+                                id="children"
+                                type="number"
+                                min="0"
+                                max="8"
+                                value="0"
+                            >
+                        </label>
+
+
+                        <label class="compact-field">
+                            <span>
+                                Infantes
+                                <small>0–23 meses</small>
+                            </span>
+
+                            <input
+                                id="infants"
+                                type="number"
+                                min="0"
+                                max="8"
+                                value="0"
+                            >
+                        </label>
+
+
+                        <label class="compact-field">
+                            <span>Clase de servicio</span>
+
+                            <select id="travelClass">
+                                <option value="economica">
+                                    Económica
+                                </option>
+
+                                <option value="ejecutiva">
+                                    Ejecutiva
+                                </option>
+
+                                <option value="primera">
+                                    Primera clase
+                                </option>
+                            </select>
+                        </label>
+
+                    </div>
+
+
+                    <button
+                        class="search-button"
+                        type="submit"
+                    >
+                        Buscar vuelos
+                        <span>→</span>
+                    </button>
+
+                </div>
+
+
+                <p class="micro-note">
+                    Prototipo académico · Disponibilidad y tarifas
+                    demostrativas expresadas en pesos colombianos (COP).
+                </p>
+
+
+                <div
+                    id="searchError"
+                    class="form-alert hidden"
+                    role="alert"
+                ></div>
+
+            </form>
+
+        </section>
+
+
+        <!-- PROPUESTA DE VALOR -->
+        <section class="feature-strip">
+
+            <div>
+                <span>01</span>
+                <b>Compara alternativas</b>
+                <small>
+                    Horarios, duración, escalas y tarifas.
+                </small>
+            </div>
+
+            <div>
+                <span>02</span>
+                <b>Elige tu itinerario</b>
+                <small>
+                    Ida y regreso compatibles.
+                </small>
+            </div>
+
+            <div>
+                <span>03</span>
+                <b>Personaliza tu viaje</b>
+                <small>
+                    Registra los pasajeros y comprador.
+                </small>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- SECCIÓN INSTITUCIONAL -->
+    <section class="brand-promise">
+
+        <span class="eyebrow">AIRCOLOMBIA</span>
+
+        <h2>
+            Más que llegar.<br>
+            <em>Disfrutar el camino.</em>
+        </h2>
+
+        <p>
+            Una experiencia de viaje diseñada para
+            conectar personas y destinos.
+        </p>
+
+    </section>
+
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+
+        <img
+            src="assets/images/logo-aircolombia.png"
+            alt="AirColombia"
+        >
+
+        <div>
+            <span>Vuela más alto.</span>
+            <small>Proyecto académico SIGOA · 2026</small>
+        </div>
+
+        <a href="#buscar">
+            Volver arriba ↑
+        </a>
+
+    </footer>
+
+
+    <!-- NOTIFICACIONES -->
+    <div
+        id="toast"
+        class="toast"
+        role="status"
+        aria-live="polite"
+    ></div>
+
+</body>
+</html>

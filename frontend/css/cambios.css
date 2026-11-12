@@ -1,0 +1,425 @@
+
+/* AIRCOLOMBIA - CAMBIOS, CANCELACIONES Y REEMBOLSOS */
+
+.changes-container {
+    width: min(1050px, 90%);
+    margin: 48px auto 80px;
+}
+
+.changes-nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.changes-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.changes-nav a:hover,
+.changes-nav .nav-highlight {
+    color: #d7ad60;
+}
+
+.changes-intro {
+    margin-bottom: 30px;
+}
+
+.changes-intro h1 {
+    color: #350914;
+    font-size: 36px;
+    margin: 15px 0 8px;
+}
+
+.changes-intro p,
+.section-heading p {
+    color: #887b7d;
+    line-height: 1.6;
+}
+
+.current-booking-card {
+    background: #350914;
+    color: white;
+    border-radius: 13px;
+    padding: 25px 30px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 20px;
+    box-shadow: 0 10px 28px rgba(53,9,20,.12);
+}
+
+.current-booking-card h2 {
+    color: #e2bc72;
+    margin: 8px 0 0;
+}
+
+.current-booking-card strong {
+    display: block;
+    margin-top: 10px;
+}
+
+.small-label {
+    color: #d7ad60;
+    font-size: 10px;
+    letter-spacing: 1.3px;
+    font-weight: 800;
+}
+
+.changes-section {
+    margin-top: 42px;
+}
+
+.section-heading {
+    margin-bottom: 20px;
+}
+
+.section-heading h2 {
+    color: #350914;
+    font-size: 27px;
+    margin: 12px 0 6px;
+}
+
+.change-form-card,
+.cancellation-card {
+    background: #fff;
+    border: 1px solid #e9dfdc;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(53,9,20,.05);
+}
+
+.change-form-card {
+    display: grid;
+    gap: 20px;
+}
+
+.change-form-card .form-group,
+.cancellation-card .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.change-form-card label,
+.cancellation-card label {
+    color: #350914;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.change-form-card select,
+.change-form-card input,
+.cancellation-card select {
+    width: 100%;
+    height: 47px;
+    border: 1px solid #e9dfdc;
+    border-radius: 8px;
+    background: #fcfaf9;
+    padding: 0 13px;
+    color: #33272a;
+    font-size: 14px;
+    outline: none;
+}
+
+.change-form-card select:focus,
+.change-form-card input:focus,
+.cancellation-card select:focus {
+    border-color: #b68b43;
+    box-shadow: 0 0 0 3px rgba(215,173,96,.15);
+}
+
+.current-flight-box {
+    padding: 17px;
+    background: #faf6f1;
+    border-left: 4px solid #d7ad60;
+    border-radius: 8px;
+    color: #5e4a4e;
+    line-height: 1.7;
+}
+
+.btn-air-primary {
+    background: #350914;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-air-primary:hover {
+    background: #5b1422;
+    transform: translateY(-1px);
+}
+
+.subsection-title {
+    color: #350914;
+    margin: 28px 0 15px;
+}
+
+.alternatives-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.alternative-card {
+    background: white;
+    border: 1px solid #e9dfdc;
+    border-radius: 12px;
+    padding: 20px;
+    transition: .2s;
+}
+
+.alternative-card.selected {
+    border: 2px solid #b68b43;
+    background: #fffcf5;
+}
+
+.alternative-card h4 {
+    color: #350914;
+    margin: 0 0 15px;
+}
+
+.alternative-route {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.alternative-route strong {
+    font-size: 20px;
+    color: #350914;
+}
+
+.alternative-details {
+    display: grid;
+    gap: 7px;
+    color: #887b7d;
+    font-size: 12px;
+    margin-bottom: 18px;
+}
+
+.alternative-price {
+    color: #350914;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.alternative-card button {
+    width: 100%;
+    border: 1px solid #d7ad60;
+    border-radius: 7px;
+    padding: 11px;
+    background: white;
+    color: #350914;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.alternative-card.selected button,
+.alternative-card button:hover {
+    background: #350914;
+    color: white;
+    border-color: #350914;
+}
+
+.change-summary {
+    background: #faf6f1;
+    border: 1px solid #e9dfdc;
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 25px;
+}
+
+.change-summary h3 {
+    color: #350914;
+    margin-top: 0;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e9dfdc;
+    color: #6f6264;
+    font-size: 14px;
+}
+
+.summary-line strong {
+    color: #350914;
+}
+
+.total-line {
+    border-bottom: none;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.total-line strong {
+    color: #9a712d;
+    font-size: 20px;
+}
+
+.change-summary .btn-air-primary {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.helper-text {
+    color: #887b7d;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.cancellation-card {
+    display: grid;
+    gap: 22px;
+}
+
+.cancellation-info h3 {
+    color: #350914;
+    margin-top: 0;
+}
+
+.cancellation-info p {
+    color: #887b7d;
+    line-height: 1.6;
+}
+
+.refund-estimate {
+    background: #faf6f1;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.refund-estimate span {
+    color: #887b7d;
+    font-size: 13px;
+}
+
+.refund-estimate strong {
+    color: #350914;
+    font-size: 27px;
+}
+
+.refund-estimate small {
+    color: #887b7d;
+}
+
+.btn-danger {
+    background: #fff3f0;
+    color: #a33b32;
+    border: 1px solid #edc9c3;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-danger:hover {
+    background: #fce4df;
+}
+
+.history-list {
+    background: white;
+    border: 1px solid #e9dfdc;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.history-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee6e3;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-item strong {
+    color: #350914;
+}
+
+.history-item p,
+.empty-history {
+    color: #887b7d;
+    font-size: 13px;
+}
+
+.change-message {
+    margin-top: 20px;
+    border-radius: 8px;
+    padding: 15px 18px;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.change-message.success {
+    color: #246b45;
+    background: #eaf5ee;
+}
+
+.change-message.error {
+    color: #a33b32;
+    background: #fff0ed;
+}
+
+.return-link {
+    display: inline-block;
+    margin-top: 35px;
+    color: #6c2431;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.return-link:hover {
+    color: #b68b43;
+}
+
+@media (max-width: 700px) {
+    .changes-container {
+        margin-top: 30px;
+    }
+
+    .changes-nav {
+        gap: 12px;
+    }
+
+    .changes-nav a {
+        font-size: 11px;
+    }
+
+    .current-booking-card {
+        grid-template-columns: 1fr;
+    }
+
+    .changes-intro h1 {
+        font-size: 28px;
+    }
+
+    .change-form-card,
+    .cancellation-card {
+        padding: 20px;
+    }
+
+    .alternatives-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-line {
+        font-size: 12px;
+    }
+}

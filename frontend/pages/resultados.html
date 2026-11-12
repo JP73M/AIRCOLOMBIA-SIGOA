@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de vuelos | AIRCOLOMBIA</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/booking.css">
+</head>
+<body class="results-page">
+
+<header class="results-header">
+    <a href="../index.html" class="results-brand">
+        <img src="../assets/images/logo-aircolombia.png" alt="AIRCOLOMBIA">
+    </a>
+    <a href="../index.html" class="back-link">← Modificar búsqueda</a>
+</header>
+
+<main class="results-container">
+    <section class="results-route">
+        <div>
+            <span class="eyebrow">TU PRÓXIMO DESTINO</span>
+            <h1 id="routeTitle">Buscando vuelos...</h1>
+            <p id="searchDetails"></p>
+        </div>
+        <div class="route-badge">AIRCOLOMBIA</div>
+    </section>
+
+    <div class="results-progress">
+        <span class="progress-active">1. Vuelos</span>
+        <span>2. Pasajeros</span>
+        <span>3. Servicios</span>
+        <span>4. Pago</span>
+    </div>
+
+    <section id="flightSection">
+        <div class="results-heading">
+            <div>
+                <span class="eyebrow" id="flightDirection">SELECCIÓN DE VUELO</span>
+                <h2 id="sectionTitle">Vuelos disponibles</h2>
+                <p id="sectionDescription">Selecciona la alternativa que mejor se adapte a tu viaje.</p>
+            </div>
+            <div class="results-count" id="resultsCount">0 vuelos</div>
+        </div>
+
+        <div class="results-toolbar">
+            <div class="filter-group">
+                <label for="sortFlights">Ordenar por</label>
+                <select id="sortFlights">
+                    <option value="price">Menor precio</option>
+                    <option value="duration">Menor duración</option>
+                    <option value="departure">Hora de salida</option>
+                    <option value="stops">Menos escalas</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterStops">Escalas</label>
+                <select id="filterStops">
+                    <option value="all">Todas</option>
+                    <option value="0">Directos</option>
+                    <option value="1">Una escala</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterClass">Clase</label>
+                <select id="filterClass">
+                    <option value="all">Todas</option>
+                    <option value="economica">Económica</option>
+                    <option value="ejecutiva">Ejecutiva</option>
+                    <option value="primera">Primera</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="flightList" class="flight-list"></div>
+        <div id="emptyResults" class="empty-results hidden">
+            No encontramos vuelos con esos filtros. Prueba con otra combinación.
+        </div>
+    </section>
+
+    <section id="selectionSummary" class="selection-summary hidden">
+        <div>
+            <span class="eyebrow">TU SELECCIÓN</span>
+            <h3 id="selectionText">Vuelo seleccionado</h3>
+            <p id="selectionPrice"></p>
+        </div>
+        <button id="continueButton" class="continue-button">Continuar →</button>
+    </section>
+
+    <div id="resultsToast" class="results-toast"></div>
+</main>
+
+<script type="module" src="../js/modules/vuelos.js"></script>
+</body>
+</html>

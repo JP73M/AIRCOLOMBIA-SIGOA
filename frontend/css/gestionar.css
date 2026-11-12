@@ -1,0 +1,399 @@
+
+/* =========================================
+   AIRCOLOMBIA - GESTIÓN DE RESERVAS
+========================================= */
+
+:root {
+    --air-navy: #350914;
+    --air-blue: #5b1422;
+    --air-gold: #d7ad60;
+    --air-bg: #f8f5f1;
+    --air-white: #ffffff;
+    --air-text: #33272a;
+    --air-muted: #887b7d;
+    --air-border: #e9dfdc;
+    --air-shadow: 0 12px 35px rgba(53, 9, 20, .08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--air-bg);
+    color: var(--air-text);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* HEADER */
+
+.booking-header {
+    height: 82px;
+    background: #350914;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8%;
+    box-shadow: 0 3px 15px rgba(0,0,0,.12);
+}
+
+.booking-header .brand img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.back-link {
+    color: #d7ad60;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    color: white;
+}
+
+/* CONTENEDOR */
+
+.manage-container {
+    width: min(1100px, 90%);
+    margin: 55px auto;
+}
+
+/* INTRODUCCIÓN */
+
+.manage-intro {
+    margin-bottom: 35px;
+}
+
+.section-tag {
+    display: inline-block;
+    color: #a37d28;
+    background: #f5ebd2;
+    padding: 7px 13px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+.manage-intro h1 {
+    font-size: 36px;
+    color: var(--air-navy);
+    margin: 15px 0 8px;
+}
+
+.manage-intro p {
+    color: var(--air-muted);
+    font-size: 16px;
+    margin: 0;
+}
+
+/* TARJETA DE BÚSQUEDA */
+
+.manage-search-card {
+    max-width: 680px;
+    background: var(--air-white);
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: var(--air-shadow);
+    border: 1px solid var(--air-border);
+}
+
+.manage-search-card h2 {
+    color: var(--air-navy);
+    font-size: 23px;
+    margin: 0 0 8px;
+}
+
+.manage-search-card > p {
+    color: var(--air-muted);
+    margin-bottom: 28px;
+}
+
+#formBuscarReserva {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.form-group label {
+    color: var(--air-text);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-group input {
+    width: 100%;
+    height: 48px;
+    border: 1px solid var(--air-border);
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 14px;
+    color: var(--air-text);
+    background: #fbfcfe;
+    outline: none;
+    transition: .2s;
+}
+
+.form-group input:focus {
+    border-color: var(--air-blue);
+    box-shadow: 0 0 0 3px rgba(24,59,112,.10);
+    background: white;
+}
+
+.btn-primary,
+.btn-secondary {
+    min-height: 47px;
+    border: none;
+    border-radius: 8px;
+    padding: 0 22px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+#formBuscarReserva .btn-primary {
+    grid-column: 1 / -1;
+}
+
+.btn-primary {
+    color: white;
+    background: var(--air-navy);
+}
+
+.btn-primary:hover {
+    background: var(--air-blue);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #fff5f3;
+    color: #b33b35;
+    border: 1px solid #f0d4d0;
+}
+
+.btn-secondary:hover {
+    background: #fce8e5;
+}
+
+/* MENSAJES */
+
+.form-message {
+    grid-column: 1 / -1;
+    font-size: 13px;
+    margin: 0;
+}
+
+.form-message.error {
+    color: #c0392b;
+}
+
+.form-message.success {
+    color: #218653;
+}
+
+/* RESULTADOS */
+
+.reservation-result {
+    margin-top: 35px;
+    background: white;
+    border: 1px solid var(--air-border);
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: var(--air-shadow);
+}
+
+.result-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.result-heading h2 {
+    color: var(--air-navy);
+    margin: 12px 0 0;
+}
+
+.reservation-status {
+    background: #e7f5ed;
+    color: #24794b;
+    padding: 9px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.reservation-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.reservation-info-item {
+    padding: 18px;
+    border: 1px solid var(--air-border);
+    border-radius: 10px;
+    background: #fafbfd;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.reservation-info-item span,
+.managed-flight-details,
+.passenger-row span {
+    font-size: 12px;
+    color: var(--air-muted);
+}
+
+.reservation-info-item strong {
+    color: var(--air-navy);
+}
+
+.reservation-result h3 {
+    color: var(--air-navy);
+    font-size: 18px;
+    margin: 28px 0 15px;
+}
+
+.reservation-passengers,
+.reservation-tickets {
+    display: grid;
+    gap: 10px;
+}
+
+.passenger-row,
+.ticket-row {
+    padding: 15px;
+    border: 1px solid var(--air-border);
+    border-radius: 9px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.managed-flight-card {
+    padding: 22px;
+    margin-bottom: 15px;
+    border: 1px solid var(--air-border);
+    border-radius: 12px;
+    background: #fafbfd;
+}
+
+.managed-flight-card h4 {
+    margin: 0 0 20px;
+    color: var(--air-blue);
+}
+
+.managed-flight-route {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 420px;
+    margin-bottom: 20px;
+}
+
+.managed-flight-route div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.managed-flight-route strong {
+    color: var(--air-navy);
+    font-size: 23px;
+}
+
+.managed-flight-route span:not(.flight-arrow) {
+    color: var(--air-muted);
+    font-size: 12px;
+}
+
+.flight-arrow {
+    color: var(--air-gold);
+    font-size: 25px;
+}
+
+.managed-flight-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--air-border);
+}
+
+.ticket-row strong {
+    color: var(--air-blue);
+}
+
+.manage-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+    .manage-container {
+        margin: 35px auto;
+    }
+
+    .manage-intro h1 {
+        font-size: 28px;
+    }
+
+    .manage-search-card,
+    .reservation-result {
+        padding: 22px;
+    }
+
+    #formBuscarReserva {
+        grid-template-columns: 1fr;
+    }
+
+    #formBuscarReserva .btn-primary {
+        grid-column: auto;
+    }
+
+    .reservation-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .result-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .manage-actions {
+        flex-direction: column;
+    }
+
+    .manage-actions button {
+        width: 100%;
+    }
+
+    .managed-flight-details {
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    .booking-header {
+        padding: 0 5%;
+    }
+}

@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de reserva | AIRCOLOMBIA</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/booking.css">
+    <link rel="stylesheet" href="../css/payment.css">
+    <link rel="stylesheet" href="../css/confirmation.css">
+</head>
+<body class="results-page">
+
+<header class="results-header">
+    <a href="../index.html" class="results-brand">
+        <img src="../assets/images/logo-aircolombia.png" alt="AIRCOLOMBIA">
+    </a>
+    <a href="../index.html" class="back-link">Volver al inicio</a>
+</header>
+
+<main class="confirmation-container">
+
+    <section class="confirmation-success">
+        <div class="success-icon">✓</div>
+        <span class="eyebrow">AIRCOLOMBIA · CONFIRMACIÓN DE COMPRA</span>
+        <h1>¡Tu viaje está confirmado!</h1>
+        <p>El pago fue aprobado y tus tiquetes electrónicos han sido generados.</p>
+        <div class="confirmation-status">PAGO APROBADO</div>
+    </section>
+
+    <section class="confirmation-code-card">
+        <div>
+            <span class="eyebrow">CÓDIGO DE RESERVA</span>
+            <h2 id="confirmationCode">---</h2>
+            <p>Conserva este código para consultar o gestionar tu reserva.</p>
+        </div>
+        <button id="copyCode" class="copy-button">Copiar código</button>
+    </section>
+
+    <section class="confirmation-card">
+        <span class="eyebrow">INFORMACIÓN DEL VIAJE</span>
+        <h2>Resumen de vuelos</h2>
+        <div id="confirmedFlights"></div>
+    </section>
+
+    <section class="confirmation-card">
+        <span class="eyebrow">DOCUMENTOS DE VIAJE</span>
+        <h2>Tiquetes electrónicos</h2>
+        <div id="confirmedTickets"></div>
+    </section>
+
+    <section class="confirmation-card">
+        <span class="eyebrow">PASAJEROS</span>
+        <h2>Personas registradas</h2>
+        <div id="confirmedPassengers"></div>
+    </section>
+
+    <section class="confirmation-card">
+        <span class="eyebrow">RESUMEN ECONÓMICO</span>
+        <h2>Detalle de pago</h2>
+        <div id="confirmedPayment"></div>
+    </section>
+
+    <div id="confirmationError" class="passenger-error hidden"></div>
+
+    <div class="confirmation-actions">
+        <button id="printConfirmation" class="secondary-button">Imprimir comprobante</button>
+        <button id="newBooking" class="continue-button">Nueva reserva →</button>
+    </div>
+
+
+</main>
+
+<script type="module" src="../js/modules/reservas.js"></script>
+</body>
+</html>

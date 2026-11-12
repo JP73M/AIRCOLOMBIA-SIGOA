@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios complementarios | AIRCOLOMBIA</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/booking.css">
+    <link rel="stylesheet" href="../css/services.css">
+</head>
+<body class="results-page">
+
+<header class="results-header">
+    <a href="../index.html" class="results-brand">
+        <img src="../assets/images/logo-aircolombia.png" alt="AIRCOLOMBIA">
+    </a>
+    <a href="pasajeros.html" class="back-link">← Volver a pasajeros</a>
+</header>
+
+<main class="services-container">
+
+    <section class="services-banner">
+        <span class="eyebrow">AIRCOLOMBIA · EXPERIENCIA DE VIAJE</span>
+        <h1>Personaliza tu viaje</h1>
+        <p>Agrega servicios adicionales para disfrutar una experiencia a tu medida.</p>
+    </section>
+
+    <div class="results-progress">
+        <span>1. Vuelos</span>
+        <span>2. Pasajeros</span>
+        <span class="progress-active">3. Servicios</span>
+        <span>4. Pago</span>
+    </div>
+
+    <section class="services-intro">
+        <div>
+            <span class="eyebrow">SERVICIOS ADICIONALES</span>
+            <h2>Elige lo que necesitas</h2>
+            <p>Todos los servicios son opcionales. Puedes continuar sin agregar ninguno.</p>
+        </div>
+        <div class="services-passenger-count">
+            <small>Pasajeros registrados</small>
+            <strong id="servicePassengerCount">0</strong>
+        </div>
+    </section>
+
+    <div id="servicesPassengerSelector" class="services-passenger-selector">
+        <label for="servicePassenger">Asignar servicio a:</label>
+        <select id="servicePassenger"></select>
+    </div>
+
+    <section class="services-grid" id="servicesGrid">
+
+        <article class="service-card">
+            <div class="service-icon">💺</div>
+            <span class="service-category">COMODIDAD</span>
+            <h3>Selección de asiento</h3>
+            <p>Elige tu ubicación preferida dentro del avión.</p>
+            <label for="seatType">Tipo de asiento</label>
+            <select id="seatType">
+                <option value="">No agregar</option>
+                <option value="standard">Estándar - $25.000</option>
+                <option value="window">Ventana - $35.000</option>
+                <option value="aisle">Pasillo - $35.000</option>
+                <option value="premium">Premium - $65.000</option>
+            </select>
+            <div class="service-price" id="seatPrice">$0</div>
+        </article>
+
+        <article class="service-card">
+            <div class="service-icon">🧳</div>
+            <span class="service-category">EQUIPAJE</span>
+            <h3>Equipaje adicional</h3>
+            <p>Agrega equipaje para transportar tus pertenencias.</p>
+            <label for="baggageType">Equipaje adicional</label>
+            <select id="baggageType">
+                <option value="">No agregar</option>
+                <option value="15">Maleta 15 kg - $70.000</option>
+                <option value="23">Maleta 23 kg - $110.000</option>
+                <option value="32">Maleta 32 kg - $150.000</option>
+            </select>
+            <div class="service-price" id="baggagePrice">$0</div>
+        </article>
+
+        <article class="service-card">
+            <div class="service-icon">🐶</div>
+            <span class="service-category">MASCOTAS</span>
+            <h3>Viajar con mascotas</h3>
+            <p>Solicita el transporte de tu mascota sujeto a condiciones.</p>
+            <label for="petType">Modalidad</label>
+            <select id="petType">
+                <option value="">No agregar</option>
+                <option value="cabin">En cabina - $120.000</option>
+                <option value="hold">Bodega - $220.000</option>
+            </select>
+            <div class="service-price" id="petPrice">$0</div>
+        </article>
+
+        <article class="service-card">
+            <div class="service-icon">🛡️</div>
+            <span class="service-category">PROTECCIÓN</span>
+            <h3>Seguro de viaje</h3>
+            <p>Agrega una cobertura de asistencia durante tu viaje.</p>
+            <label for="insuranceType">Cobertura</label>
+            <select id="insuranceType">
+                <option value="">No agregar</option>
+                <option value="basic">Básica - $35.000</option>
+                <option value="premium">Premium - $65.000</option>
+            </select>
+            <div class="service-price" id="insurancePrice">$0</div>
+        </article>
+
+        <article class="service-card">
+            <div class="service-icon">🍽️</div>
+            <span class="service-category">GASTRONOMÍA</span>
+            <h3>Alimentación especial</h3>
+            <p>Selecciona una opción de alimentación para tu trayecto.</p>
+            <label for="foodType">Tipo de alimentación</label>
+            <select id="foodType">
+                <option value="">No agregar</option>
+                <option value="vegetarian">Vegetariana - $30.000</option>
+                <option value="vegan">Vegana - $35.000</option>
+                <option value="gluten">Sin gluten - $35.000</option>
+                <option value="special">Menú especial - $45.000</option>
+            </select>
+            <div class="service-price" id="foodPrice">$0</div>
+        </article>
+
+        <article class="service-card">
+            <div class="service-icon">⚡</div>
+            <span class="service-category">PRIORIDAD</span>
+            <h3>Embarque prioritario</h3>
+            <p>Accede a una fila preferencial para abordar el avión.</p>
+            <label for="priorityType">Servicio</label>
+            <select id="priorityType">
+                <option value="">No agregar</option>
+                <option value="priority">Embarque prioritario - $40.000</option>
+            </select>
+            <div class="service-price" id="priorityPrice">$0</div>
+        </article>
+
+        <article class="service-card">
+            <div class="service-icon">🥂</div>
+            <span class="service-category">EXCLUSIVIDAD</span>
+            <h3>Acceso a sala VIP</h3>
+            <p>Disfruta de espacios exclusivos antes de tu vuelo.</p>
+            <label for="vipType">Acceso</label>
+            <select id="vipType">
+                <option value="">No agregar</option>
+                <option value="national">Sala VIP nacional - $85.000</option>
+                <option value="international">Sala VIP internacional - $130.000</option>
+            </select>
+            <div class="service-price" id="vipPrice">$0</div>
+        </article>
+
+        <article class="service-card">
+            <div class="service-icon">🚘</div>
+            <span class="service-category">TRANSPORTE</span>
+            <h3>Transporte terrestre</h3>
+            <p>Solicita transporte entre el aeropuerto y tu destino.</p>
+            <label for="transportType">Modalidad</label>
+            <select id="transportType">
+                <option value="">No agregar</option>
+                <option value="standard">Transporte estándar - $60.000</option>
+                <option value="premium">Transporte premium - $120.000</option>
+            </select>
+            <div class="service-price" id="transportPrice">$0</div>
+        </article>
+
+    </section>
+
+    <section class="services-notice">
+        <strong>Importante:</strong>
+        Los servicios están sujetos a disponibilidad, condiciones operativas y políticas tarifarias.
+    </section>
+
+    <section class="services-total">
+        <div>
+            <span class="eyebrow">RESUMEN DE TU COMPRA</span>
+            <h2>Total estimado</h2>
+            <p id="servicesSummary">Vuelos y servicios seleccionados.</p>
+        </div>
+        <div class="services-total-price" id="servicesTotal">$0</div>
+    </section>
+
+    <div id="servicesError" class="passenger-error hidden"></div>
+
+    <div class="services-actions">
+        <a href="pasajeros.html" class="secondary-button">Volver</a>
+        <button type="button" id="continueServices" class="continue-button">
+            Continuar al pago →
+        </button>
+    </div>
+
+</main>
+
+<script type="module" src="../js/modules/servicios.js"></script>
+</body>
+</html>

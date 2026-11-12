@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago y emisión | AIRCOLOMBIA</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/booking.css">
+    <link rel="stylesheet" href="../css/payment.css">
+</head>
+<body class="results-page">
+
+<header class="results-header">
+    <a href="../index.html" class="results-brand">
+        <img src="../assets/images/logo-aircolombia.png" alt="AIRCOLOMBIA">
+    </a>
+    <a href="servicios.html" class="back-link">← Volver a servicios</a>
+</header>
+
+<main class="payment-container">
+
+    <section class="payment-banner">
+        <span class="eyebrow">AIRCOLOMBIA · COMPRA SEGURA</span>
+        <h1>Finaliza tu compra</h1>
+        <p>Revisa los detalles de tu viaje y selecciona tu método de pago.</p>
+    </section>
+
+    <div class="results-progress">
+        <span>1. Vuelos</span>
+        <span>2. Pasajeros</span>
+        <span>3. Servicios</span>
+        <span class="progress-active">4. Pago</span>
+    </div>
+
+    <div class="payment-layout">
+
+        <section class="payment-main">
+
+            <div class="payment-card">
+                <span class="eyebrow">RESUMEN DE RESERVA</span>
+                <h2>Detalles de tu viaje</h2>
+
+                <div id="paymentFlightSummary"></div>
+
+                <div class="payment-divider"></div>
+
+                <h3>Pasajeros registrados</h3>
+                <div id="paymentPassengers"></div>
+
+                <div class="payment-divider"></div>
+
+                <h3>Servicios adicionales</h3>
+                <div id="paymentServices"></div>
+            </div>
+
+            <div class="payment-card">
+                <span class="eyebrow">MÉTODO DE PAGO</span>
+                <h2>¿Cómo deseas pagar?</h2>
+
+                <div class="payment-methods">
+
+                    <label class="payment-method">
+                        <input type="radio" name="paymentMethod" value="pse" checked>
+                        <span class="payment-method-icon">🏦</span>
+                        <span>
+                            <strong>PSE</strong>
+                            <small>Débito desde tu cuenta bancaria</small>
+                        </span>
+                    </label>
+
+                    <label class="payment-method">
+                        <input type="radio" name="paymentMethod" value="card">
+                        <span class="payment-method-icon">💳</span>
+                        <span>
+                            <strong>Tarjeta de crédito</strong>
+                            <small>Visa, Mastercard u otras</small>
+                        </span>
+                    </label>
+
+                    <label class="payment-method">
+                        <input type="radio" name="paymentMethod" value="transfer">
+                        <span class="payment-method-icon">🔄</span>
+                        <span>
+                            <strong>Transferencia bancaria</strong>
+                            <small>Pago mediante transferencia</small>
+                        </span>
+                    </label>
+
+                </div>
+
+                <div id="paymentExtraFields"></div>
+
+               
+            </div>
+
+        </section>
+
+        <aside class="payment-sidebar">
+
+            <div class="payment-total-card">
+                <span class="eyebrow">RESUMEN ECONÓMICO</span>
+                <h2>Tu compra</h2>
+
+                <div class="payment-price-row">
+                    <span>Vuelos</span>
+                    <strong id="priceFlights">$0</strong>
+                </div>
+
+                <div class="payment-price-row">
+                    <span>Servicios adicionales</span>
+                    <strong id="priceServices">$0</strong>
+                </div>
+
+                <div class="payment-price-row">
+                    <span>Impuestos y tasas</span>
+                    <strong id="priceTaxes">$0</strong>
+                </div>
+
+                <div class="payment-divider"></div>
+
+                <div class="payment-final-row">
+                    <span>Total a pagar</span>
+                    <strong id="paymentTotal">$0</strong>
+                </div>
+
+                <button id="payButton" class="pay-button">
+                    Confirmar y pagar
+                </button>
+
+                
+            </div>
+
+        </aside>
+
+    </div>
+
+    <div id="paymentError" class="passenger-error hidden"></div>
+    <div id="paymentResult" class="payment-result hidden"></div>
+
+</main>
+
+<script type="module" src="../js/modules/pagos.js"></script>
+</body>
+</html>

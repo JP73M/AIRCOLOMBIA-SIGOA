@@ -1,0 +1,302 @@
+
+/* ==========================================
+   AIRCOLOMBIA SIGOA - PAGOS
+   ========================================== */
+
+.payment-container {
+    width: min(1150px, 90%);
+    margin: 35px auto 70px;
+}
+
+.payment-banner {
+    background: linear-gradient(120deg, #570b1b, #300611);
+    color: white;
+    padding: 35px;
+    border-radius: 15px;
+}
+
+.payment-banner h1 {
+    font-size: 34px;
+    margin: 10px 0;
+    color: white;
+}
+
+.payment-banner p {
+    color: #eadde0;
+    margin: 0;
+}
+
+.payment-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+    gap: 22px;
+    align-items: start;
+}
+
+.payment-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.payment-card,
+.payment-total-card {
+    background: white;
+    border: 1px solid #eee8e3;
+    border-radius: 13px;
+    padding: 25px;
+}
+
+.payment-card h2,
+.payment-total-card h2 {
+    color: #570b1b;
+    margin: 8px 0 20px;
+}
+
+.payment-card h3 {
+    color: #570b1b;
+    font-size: 15px;
+    margin: 15px 0;
+}
+
+.payment-divider {
+    height: 1px;
+    background: #eee8e3;
+    margin: 20px 0;
+}
+
+.payment-detail-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 9px 0;
+    font-size: 13px;
+    color: #66595c;
+}
+
+.payment-detail-row strong {
+    color: #30252a;
+    text-align: right;
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-method {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 15px;
+    border: 1px solid #e8dfda;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.payment-method:has(input:checked) {
+    border-color: #570b1b;
+    background: #fbf5f4;
+}
+
+.payment-method input {
+    accent-color: #570b1b;
+    width: 17px;
+    height: 17px;
+}
+
+.payment-method-icon {
+    font-size: 25px;
+}
+
+.payment-method strong,
+.payment-method small {
+    display: block;
+}
+
+.payment-method strong {
+    color: #570b1b;
+}
+
+.payment-method small {
+    color: #888;
+    margin-top: 4px;
+    font-size: 12px;
+}
+
+.payment-extra-fields {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.payment-extra-fields .form-field {
+    min-width: 0;
+}
+
+.payment-extra-fields .full-width {
+    grid-column: 1 / -1;
+}
+
+.payment-extra-fields select,
+.payment-extra-fields input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 43px;
+    padding: 0 10px;
+    border: 1px solid #ded6d3;
+    border-radius: 7px;
+    background: white;
+}
+
+.payment-notice {
+    margin-top: 20px;
+    background: #fff9ed;
+    color: #705b31;
+    border: 1px solid #ead6a9;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.payment-total-card {
+    position: sticky;
+    top: 20px;
+    border-color: #d6ac60;
+}
+
+.payment-price-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    font-size: 13px;
+    color: #777;
+}
+
+.payment-price-row strong {
+    color: #30252a;
+    text-align: right;
+}
+
+.payment-final-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    color: #570b1b;
+    font-weight: 800;
+}
+
+.payment-final-row strong {
+    font-size: 24px;
+    text-align: right;
+}
+
+.pay-button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #570b1b;
+    color: white;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.pay-button:hover {
+    background: #811d35;
+}
+
+.pay-button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.payment-security {
+    text-align: center;
+    color: #888;
+    font-size: 11px;
+    margin-top: 14px;
+}
+
+.payment-result {
+    background: white;
+    border: 1px solid #d6ac60;
+    border-radius: 13px;
+    padding: 25px;
+    margin-top: 25px;
+}
+
+.payment-result h2 {
+    color: #570b1b;
+    margin-top: 0;
+}
+
+.payment-result p {
+    color: #66595c;
+    line-height: 1.6;
+}
+
+.payment-result button {
+    border: none;
+    background: #570b1b;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.payment-result .ticket-code {
+    background: #f5eeeb;
+    color: #570b1b;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 14px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+@media (max-width: 800px) {
+    .payment-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-total-card {
+        position: static;
+    }
+}
+
+@media (max-width: 520px) {
+    .payment-container {
+        width: 92%;
+    }
+
+    .payment-banner {
+        padding: 25px;
+    }
+
+    .payment-banner h1 {
+        font-size: 27px;
+    }
+
+    .payment-card,
+    .payment-total-card {
+        padding: 18px;
+    }
+
+    .payment-extra-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-extra-fields .full-width {
+        grid-column: auto;
+    }
+}

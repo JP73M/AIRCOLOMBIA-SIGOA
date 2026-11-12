@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar reserva | AIRCOLOMBIA</title>
+
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/booking.css">
+    <link rel="stylesheet" href="../css/confirmation.css">
+    <link rel="stylesheet" href="../css/gestionar.css">
+</head>
+<body>
+
+    <header class="booking-header">
+        <a href="../index.html" class="brand">
+            <img src="../assets/images/logo-aircolombia.png" alt="AIRCOLOMBIA">
+        </a>
+        <a href="../index.html" class="back-link">Volver al inicio</a>
+    </header>
+
+    <main class="manage-container">
+
+        <section class="manage-intro">
+            <span class="section-tag">AUTOGESTIÓN</span>
+            <h1>Gestiona tu reserva</h1>
+            <p>Consulta tu itinerario, revisa tus tiquetes y administra tu viaje.</p>
+        </section>
+
+        <section class="manage-search-card">
+            <h2>Consultar reserva</h2>
+            <p>Ingresa los datos asociados a tu compra.</p>
+
+            <form id="formBuscarReserva">
+
+                <div class="form-group">
+                    <label for="codigoReserva">Código de reserva</label>
+                    <input
+                        type="text"
+                        id="codigoReserva"
+                        placeholder="Ej. AC-12345678"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="apellidoPasajero">Apellido del pasajero</label>
+                    <input
+                        type="text"
+                        id="apellidoPasajero"
+                        placeholder="Ingresa el primer apellido"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    Buscar reserva
+                </button>
+
+                <div id="mensajeBusqueda" class="form-message"></div>
+
+            </form>
+        </section>
+
+        <section id="resultadoReserva" class="reservation-result" hidden>
+
+            <div class="result-heading">
+                <div>
+                    <span class="section-tag">RESERVA ENCONTRADA</span>
+                    <h2>Detalles de tu viaje</h2>
+                </div>
+                <span id="estadoReserva" class="reservation-status"></span>
+            </div>
+
+            <div id="informacionReserva"></div>
+
+            <div class="manage-actions">
+                <button id="btnCambiarReserva" class="btn-primary">
+                    Cambiar vuelo
+                </button>
+
+                <button id="btnCancelarReserva" class="btn-secondary">
+                    Cancelar reserva
+                </button>
+            </div>
+
+            <p id="mensajeAccion" class="form-message"></p>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="../js/modules/gestionar-reserva.js"></script>
+
+</body>
+</html>

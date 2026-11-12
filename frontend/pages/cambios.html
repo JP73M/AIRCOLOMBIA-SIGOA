@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar viaje | AIRCOLOMBIA</title>
+
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/booking.css">
+    <link rel="stylesheet" href="../css/gestionar.css">
+    <link rel="stylesheet" href="../css/cambios.css">
+</head>
+<body>
+
+    <header class="booking-header">
+        <a href="../index.html" class="brand">
+            <img src="../assets/images/logo-aircolombia.png" alt="AIRCOLOMBIA">
+        </a>
+
+        <nav class="changes-nav">
+            <a href="../index.html">Vuelos</a>
+            <a href="gestionar-reserva.html">Mi itinerario</a>
+            <a href="gestionar-reserva.html" class="nav-highlight">Gestiona tu viaje</a>
+        </nav>
+    </header>
+
+    <main class="changes-container">
+
+        <section class="changes-intro">
+            <span class="section-tag">AUTOGESTIÓN AIRCOLOMBIA</span>
+            <h1>Administra tu viaje</h1>
+            <p>Modifica tu itinerario, consulta las condiciones de cancelación y gestiona tus solicitudes.</p>
+        </section>
+
+        <section class="current-booking-card">
+            <div>
+                <span class="small-label">CÓDIGO DE RESERVA</span>
+                <h2 id="codigoReserva">Cargando...</h2>
+            </div>
+
+            <div>
+                <span class="small-label">ESTADO</span>
+                <strong id="estadoReserva">Consultando...</strong>
+            </div>
+
+            <div>
+                <span class="small-label">PASAJEROS</span>
+                <strong id="cantidadPasajeros">0</strong>
+            </div>
+        </section>
+
+        <div id="mensajeGeneral" class="change-message" hidden></div>
+
+        <section class="changes-section">
+            <div class="section-heading">
+                <span class="section-tag">01 / MODIFICACIONES</span>
+                <h2>Cambiar vuelo</h2>
+                <p>Selecciona el trayecto que deseas modificar y revisa las alternativas disponibles.</p>
+            </div>
+
+            <div class="change-form-card">
+                <div class="form-group">
+                    <label for="tipoTrayecto">Trayecto que deseas cambiar</label>
+                    <select id="tipoTrayecto">
+                        <option value="ida">Vuelo de ida</option>
+                        <option value="regreso">Vuelo de regreso</option>
+                    </select>
+                </div>
+
+                <div id="vueloActual" class="current-flight-box">
+                    Selecciona un trayecto para consultar el vuelo actual.
+                </div>
+
+                <div class="form-group">
+                    <label for="nuevaFecha">Nueva fecha de viaje</label>
+                    <input type="date" id="nuevaFecha">
+                </div>
+
+                <button id="btnBuscarAlternativas" class="btn-air-primary">
+                    Buscar vuelos alternativos
+                </button>
+            </div>
+
+            <div id="alternativasContainer" hidden>
+                <h3 class="subsection-title">Vuelos disponibles para esta demostración</h3>
+                <div id="listaAlternativas" class="alternatives-grid"></div>
+
+                <div id="resumenCambio" class="change-summary" hidden>
+                    <h3>Resumen del cambio</h3>
+                    <div class="summary-line">
+                        <span>Tarifa del vuelo actual</span>
+                        <strong id="precioActual">$0</strong>
+                    </div>
+                    <div class="summary-line">
+                        <span>Tarifa del nuevo vuelo</span>
+                        <strong id="precioNuevo">$0</strong>
+                    </div>
+                    <div class="summary-line">
+                        <span>Diferencia por pasajero</span>
+                        <strong id="diferenciaPasajero">$0</strong>
+                    </div>
+                    <div class="summary-line total-line">
+                        <span>Total por pagar</span>
+                        <strong id="totalDiferencia">$0</strong>
+                    </div>
+
+                    <button id="btnConfirmarCambio" class="btn-air-primary">
+                        Confirmar cambio
+                    </button>
+
+                    
+                </div>
+            </div>
+        </section>
+
+        <section class="changes-section">
+            <div class="section-heading">
+                <span class="section-tag">02 / CANCELACIONES</span>
+                <h2>Cancelar reserva</h2>
+                <p>Consulta el valor estimado de devolución antes de registrar una solicitud.</p>
+            </div>
+
+            <div class="cancellation-card">
+                <div class="cancellation-info">
+                    <h3>Condiciones de cancelación</h3>
+                    <p>
+                        Para esta demostración se aplican reglas ilustrativas:
+                        tarifa flexible, estándar y básica.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipoTarifa">Tipo de tarifa</label>
+                    <select id="tipoTarifa">
+                        <option value="flexible">Flexible - 100% reembolsable</option>
+                        <option value="estandar">Estándar - 50% reembolsable</option>
+                        <option value="basica">Básica - No reembolsable</option>
+                    </select>
+                </div>
+
+                <div class="refund-estimate">
+                    <span>Valor estimado de reembolso</span>
+                    <strong id="valorReembolso">$0 COP</strong>
+                    <small id="detalleReembolso">Calculado sobre el valor de los vuelos.</small>
+                </div>
+
+                <button id="btnSolicitarCancelacion" class="btn-danger">
+                    Solicitar cancelación
+                </button>
+
+                
+            </div>
+        </section>
+
+        <section class="changes-section">
+            <div class="section-heading">
+                <span class="section-tag">03 / SEGUIMIENTO</span>
+                <h2>Historial de solicitudes</h2>
+                <p>Consulta los movimientos realizados sobre esta reserva.</p>
+            </div>
+
+            <div id="historialSolicitudes" class="history-list">
+                <p class="empty-history">No hay solicitudes registradas.</p>
+            </div>
+        </section>
+
+        <a href="gestionar-reserva.html" class="return-link">
+            ← Volver a gestionar reserva
+        </a>
+
+    </main>
+
+    <script type="module" src="../js/modules/cambios.js"></script>
+</body>
+</html>
