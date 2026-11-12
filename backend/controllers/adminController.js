@@ -17,8 +17,7 @@ exports.listarUsuarios = async (req, res) => {
         const [usuarios] = await pool.query(
             `SELECT u.id, u.nombres, u.apellidos, u.correo,
                     u.username, u.estado, u.intentos_fallidos,
-                    u.bloqueado_hasta, u.ultimo_acceso,
-                    u.area, r.nombre AS rol
+                    u.ultimo_acceso, r.nombre AS rol
              FROM usuarios u
              INNER JOIN roles r ON r.id = u.rol_id
              ORDER BY u.id DESC`
@@ -28,8 +27,7 @@ exports.listarUsuarios = async (req, res) => {
             usuarios: usuarios.map(u => ({
                 ...u,
                 activo: u.estado === "ACTIVO",
-                bloqueado: u.bloqueado_hasta &&
-                    new Date(u.bloqueado_hasta) > new Date()
+                bloqueado: u.estado === "BLOQUEADO"
             }))
         });
     } catch (error) {
@@ -43,7 +41,7 @@ exports.crearUsuario = async (req, res) => {
     try {
         const { nombre, username, correo, password, rol, area } = req.body;
 
-        if (!nombre || !username || !correo || !password || !rol || !area) {
+        if (!nombre || !username || !correo || !password || !rol) {
             return res.status(400).json({
                 mensaje: "Completa todos los campos."
             });
@@ -85,16 +83,15 @@ exports.crearUsuario = async (req, res) => {
         const [resultado] = await pool.query(
             `INSERT INTO usuarios
             (nombres, apellidos, correo, username, password_hash,
-             rol_id, estado, intentos_fallidos, area)
-            VALUES (?, ?, ?, ?, ?, ?, 'ACTIVO', 0, ?)`,
+             rol_id, estado, intentos_fallidos)
+            VALUES (?, ?, ?, ?, ?, ?, 'ACTIVO', 0)`,
             [
                 nombres,
                 apellidos,
                 correo.trim().toLowerCase(),
                 username.trim(),
                 hash,
-                roles[0].id,
-                area
+                roles[0].id
             ]
         );
 
@@ -226,7 +223,6 @@ exports.desbloquear = async (req, res) => {
         await pool.query(
             `UPDATE usuarios
              SET intentos_fallidos = 0,
-                 bloqueado_hasta = NULL,
                  estado = 'ACTIVO'
              WHERE id = ?`,
             [id]

@@ -129,15 +129,6 @@ exports.login = async (req, res) => {
             });
         }
 
-        if (
-            usuario.bloqueado_hasta &&
-            new Date(usuario.bloqueado_hasta) > new Date()
-        ) {
-            return res.status(423).json({
-                mensaje: "Cuenta bloqueada temporalmente. Intenta más tarde."
-            });
-        }
-
         const passwordValida = await bcrypt.compare(
             password,
             usuario.password_hash
@@ -152,13 +143,11 @@ exports.login = async (req, res) => {
             await pool.query(
                 `UPDATE usuarios
                  SET intentos_fallidos = ?,
-                     bloqueado_hasta = ?
+                     estado = ?
                  WHERE id = ?`,
                 [
                     bloqueado ? 0 : intentos,
-                    bloqueado
-                        ? new Date(Date.now() + TIEMPO_BLOQUEO)
-                        : null,
+                    bloqueado ? "BLOQUEADO" : "ACTIVO",
                     usuario.id
                 ]
             );
@@ -172,7 +161,7 @@ exports.login = async (req, res) => {
 
             return res.status(bloqueado ? 423 : 401).json({
                 mensaje: bloqueado
-                    ? "Cinco intentos fallidos. Cuenta bloqueada durante cinco minutos."
+                    ? "Cinco intentos fallidos. Cuenta bloqueada. Contacta al administrador para desbloquearla."
                     : `Credenciales incorrectas. Intento ${intentos} de 5.`
             });
         }
@@ -180,7 +169,6 @@ exports.login = async (req, res) => {
         await pool.query(
             `UPDATE usuarios
              SET intentos_fallidos = 0,
-                 bloqueado_hasta = NULL,
                  ultimo_acceso = NOW()
              WHERE id = ?`,
             [usuario.id]

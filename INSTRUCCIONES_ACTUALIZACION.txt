@@ -1,0 +1,43 @@
+AIRCOLOMBIA SIGOA - ACTUALIZACIÓN DE PERSISTENCIA MYSQL
+========================================================
+
+1) ANTES DE REEMPLAZAR
+- Haz copia de seguridad de C:\Proyecto\AIRCOLOMBIA.
+- Conserva TU .env actual. No viene incluido en este ZIP.
+- Conserva TU carpeta .git. No viene incluida en este ZIP.
+- Haz exportación de la base de datos actual desde phpMyAdmin.
+
+2) INSTALAR
+- Descomprime el ZIP y COPIA su contenido dentro de C:\Proyecto\AIRCOLOMBIA.
+- Acepta reemplazar los archivos existentes. NO borres la carpeta original.
+- Si el ZIP se descomprime dentro de otra carpeta, copia el CONTENIDO de la carpeta, no la carpeta entera.
+- En VS Code abre C:\Proyecto\AIRCOLOMBIA y ejecuta npm run dev.
+- Verifica MySQL en XAMPP y http://localhost:3000/api/estado-db.
+
+3) PROBAR
+- Busca un vuelo con fecha futura y disponibilidad.
+- Completa pasajeros y servicios con datos ficticios.
+- En el pago simulado selecciona "Pago aprobado".
+- El sistema guardará en MySQL antes de confirmar.
+- Consulta en phpMyAdmin:
+  SELECT * FROM reservas ORDER BY id DESC;
+  SELECT * FROM pagos ORDER BY id DESC;
+  SELECT * FROM tiquetes ORDER BY id DESC;
+- Prueba "Gestionar reserva" con el código y apellido del pasajero.
+- En reportes, verifica que aparezca la nueva reserva.
+- En cambios, las alternativas ahora se consultan en MySQL y las solicitudes se registran en tabla cambios.
+- Las cancelaciones se guardan como SOLICITADAS, no como reembolsos procesados.
+
+4) USUARIOS
+- Para crear el administrador, si usuarios está vacía: node backend/scripts/crearAdmin.js
+- El script actual incluye una contraseña DEMO fija. Cambia la contraseña antes de uso real.
+- Se corrigieron consultas que utilizaban columnas inexistentes (area y bloqueado_hasta).
+
+5) ALCANCE Y SEGURIDAD
+- SOLO PARA DEMOSTRACIÓN ACADÉMICA LOCAL. Los pagos son simulados.
+- No desplegar públicamente: los endpoints de reportes y reservas requieren autenticación, autorización, límites de solicitudes y políticas de privacidad antes de producción.
+- Los cambios de vuelo se registran como SOLICITUD, sin modificar itinerarios ni emitir tiquetes nuevos hasta su aprobación y pago.
+- Los reembolsos NO se procesan automáticamente.
+- El correo se intenta después de guardar la compra; si falla, la compra permanece registrada.
+- El ZIP recibido contenía .env y .git. Se EXCLUYERON del ZIP de salida. Si el ZIP original se compartió fuera de un entorno confiable, cambia las credenciales SMTP, MySQL y JWT.
+- No se pudo ejecutar una prueba contra tu MySQL local desde este entorno; se verificó la sintaxis JavaScript con node --check.

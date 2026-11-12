@@ -211,112 +211,23 @@ function actualizarVueloActual() {
     vueloSeleccionado = null;
 }
 
-function generarAlternativas(vuelo, fecha) {
-    const precioBase = obtenerPrecio(vuelo);
-
-    const variaciones = [0.85, 1, 1.15, 1.30];
-
-    return variaciones.map((factor, indice) => ({
-        ...vuelo,
-        numero: `AC${420 + indice}`,
-        origen: vuelo.origen,
-        destino: vuelo.destino,
-        fecha,
-        salida: ["07:30", "11:45", "15:20", "19:10"][indice],
-        horaSalida: ["07:30", "11:45", "15:20", "19:10"][indice],
-        duracion: ["1 h 10 min", "1 h 15 min", "1 h 20 min", "1 h 25 min"][indice],
-        escalas: 0,
-        precio: Math.round(precioBase * factor),
-        clase: vuelo.clase || "Económica"
-    }));
-}
-
-function buscarAlternativas() {
-    if (reserva.estado !== "PAGADA - TIQUETES EMITIDOS") {
-        mostrarMensaje(
-            "Solo puedes cambiar vuelos de reservas pagadas y con tiquetes emitidos.",
-            "error"
-        );
-        return;
+async function buscarAlternativas() {
+    if(reserva.estado!=="PAGADA - TIQUETES EMITIDOS"){
+        mostrarMensaje("Solo puedes solicitar cambios de reservas pagadas.","error");return;
     }
-
-    const vueloActual = obtenerVueloActual();
-    const nuevaFecha = $("nuevaFecha").value;
-
-    if (!vueloActual) {
-        mostrarMensaje("No encontramos el vuelo seleccionado.", "error");
-        return;
-    }
-
-    if (!nuevaFecha) {
-        mostrarMensaje("Selecciona una nueva fecha de viaje.", "error");
-        return;
-    }
-
-    if (nuevaFecha === vueloActual.fecha) {
-        mostrarMensaje("Selecciona una fecha diferente.", "error");
-        return;
-    }
-
-    if (nuevaFecha < $("nuevaFecha").min) {
-        mostrarMensaje("La fecha debe ser posterior a hoy.", "error");
-        return;
-    }
-
-    if (obtenerPrecio(vueloActual) <= 0) {
-        mostrarMensaje(
-            "No podemos calcular la diferencia porque el vuelo no tiene una tarifa individual registrada.",
-            "error"
-        );
-        return;
-    }
-
-    alternativasActuales = generarAlternativas(vueloActual, nuevaFecha);
-    vueloSeleccionado = null;
-
-    $("alternativasContainer").hidden = false;
-    $("resumenCambio").hidden = true;
-
-    $("listaAlternativas").innerHTML =
-        alternativasActuales.map((vuelo, indice) => `
-            <article class="alternative-card" id="alternativa-${indice}">
-                <h4>Vuelo ${escapar(vuelo.numero)}</h4>
-
-                <div class="alternative-route">
-                    <strong>${escapar(vuelo.origen)}</strong>
-                    <span>→</span>
-                    <strong>${escapar(vuelo.destino)}</strong>
-                </div>
-
-                <div class="alternative-details">
-                    <span>Fecha: ${escapar(vuelo.fecha)}</span>
-                    <span>Salida: ${escapar(vuelo.salida)}</span>
-                    <span>Duración: ${escapar(vuelo.duracion)}</span>
-                    <span>Escalas: ${vuelo.escalas}</span>
-                    <span>Clase: ${escapar(vuelo.clase)}</span>
-                </div>
-
-                <div class="alternative-price">
-                    ${formatoCOP(vuelo.precio)}
-                    <small>por pasajero</small>
-                </div>
-
-                <button type="button" data-indice="${indice}">
-                    Seleccionar vuelo
-                </button>
-            </article>
-        `).join("");
-
-    $("listaAlternativas").querySelectorAll("button").forEach(boton => {
-        boton.addEventListener("click", () => {
-            seleccionarVuelo(Number(boton.dataset.indice));
-        });
-    });
-
-    mostrarMensaje(
-        "Encontramos cuatro alternativas simuladas para tu ruta.",
-        "success"
-    );
+    const actual=obtenerVueloActual(),fecha=$("nuevaFecha").value;
+    if(!actual||!fecha){mostrarMensaje("Selecciona una fecha y un trayecto.","error");return;}
+    try{
+        const params=new URLSearchParams({origen:actual.origen,destino:actual.destino,fecha,clase:String(actual.clase||"ECONOMICA").toLowerCase()});
+        const resp=await fetch(`http://localhost:3000/api/vuelos?${params}`);
+        const data=await resp.json();if(!resp.ok)throw Error(data.mensaje||"No se pudieron consultar vuelos.");
+        alternativasActuales=(data.vuelos||[]).map(v=>({id:v.id,numero:v.numero_vuelo,origen:v.origen,destino:v.destino,fecha:v.fecha,salida:v.salida,horaSalida:v.salida,duracion:`${v.duracion} min`,escalas:0,precio:Number(v.precio),clase:v.clase}));
+        vueloSeleccionado=null;
+        $("alternativasContainer").hidden=false;$("resumenCambio").hidden=true;
+        $("listaAlternativas").innerHTML=alternativasActuales.map((v,i)=>`<article class="alternative-card" id="alternativa-${i}"><h4>Vuelo ${escapar(v.numero)}</h4><div class="alternative-route"><strong>${escapar(v.origen)}</strong> → <strong>${escapar(v.destino)}</strong></div><div class="alternative-details">${escapar(v.fecha)} · ${escapar(v.salida)} · ${escapar(v.clase)}</div><div class="alternative-price">${formatoCOP(v.precio)}</div><button type="button" data-indice="${i}">Seleccionar vuelo</button></article>`).join('')||'<p>No hay vuelos disponibles para esta fecha.</p>';
+        $("listaAlternativas").querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>seleccionarVuelo(Number(b.dataset.indice))));
+        mostrarMensaje(`${alternativasActuales.length} vuelos consultados desde MySQL.`,"success");
+    }catch(e){mostrarMensaje(e.message,"error");}
 }
 
 function seleccionarVuelo(indice) {
@@ -348,81 +259,18 @@ function seleccionarVuelo(indice) {
     $("resumenCambio").hidden = false;
 }
 
-function confirmarCambio() {
-    if (!vueloSeleccionado) {
-        mostrarMensaje("Primero selecciona un vuelo alternativo.", "error");
-        return;
-    }
-
-    const precioActual = obtenerPrecio(obtenerVueloActual());
-    const precioNuevo = obtenerPrecio(vueloSeleccionado);
-    const pasajeros = reserva.pasajeros?.length || 1;
-
-    const diferencia = precioNuevo - precioActual;
-    const total = Math.max(0, diferencia) * pasajeros;
-
-    if (diferencia > 0) {
-        const solicitudPendiente = {
-            trayecto: trayectoSeleccionado,
-            vueloAnterior: { ...obtenerVueloActual() },
-            vueloNuevo: { ...vueloSeleccionado },
-            diferenciaPorPasajero: diferencia,
-            totalDiferencia: total,
-            fecha: new Date().toISOString(),
-            estado: "PENDIENTE DE PAGO"
-        };
-
-        reserva.solicitudCambioPendiente = solicitudPendiente;
-
-        registrarSolicitud(
-            "CAMBIO DE VUELO",
-            `Solicitud para cambiar al vuelo ${vueloSeleccionado.numero}. Diferencia pendiente de pago: ${formatoCOP(total)}.`,
-            total,
-            "PENDIENTE DE PAGO"
-        );
-
-        mostrarMensaje(
-            `Solicitud registrada. Debes pagar ${formatoCOP(total)} antes de confirmar el nuevo itinerario. No se ha modificado el vuelo actual.`,
-            "success"
-        );
-
-        $("alternativasContainer").hidden = true;
-        return;
-    }
-
-    const confirmar = window.confirm(
-        `¿Confirmas el cambio de vuelo?\n\n` +
-        `No hay diferencia adicional por pagar.\n` +
-        `Esta operación es una simulación.`
-    );
-
-    if (!confirmar) return;
-
-    const vueloAnterior = { ...obtenerVueloActual() };
-
-    reserva.vuelos[trayectoSeleccionado] = {
-        ...vueloSeleccionado
-    };
-
-    reserva.estado = "CAMBIO DE VUELO REGISTRADO";
-
-    registrarSolicitud(
-        "CAMBIO DE VUELO",
-        `Cambio de ${vueloAnterior.numero || "vuelo anterior"} a ${vueloSeleccionado.numero}. No hay diferencia adicional por pagar.`,
-        0,
-        "CONFIRMADO"
-    );
-
-    $("estadoReserva").textContent = reserva.estado;
-
-    actualizarVueloActual();
-
-    $("alternativasContainer").hidden = true;
-
-    mostrarMensaje(
-        "Cambio registrado correctamente. El nuevo vuelo ya está asociado a la reserva.",
-        "success"
-    );
+async function confirmarCambio() {
+    if(!vueloSeleccionado){mostrarMensaje("Selecciona un vuelo alternativo.","error");return;}
+    if(!window.confirm("¿Registrar solicitud de cambio en MySQL? El vuelo actual no se modificará hasta su aprobación."))return;
+    try{
+        const resp=await fetch(`http://localhost:3000/api/reservas/${encodeURIComponent(obtenerCodigo())}/cambio`,{
+            method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({apellido:reserva.pasajeros?.[0]?.apellidos,tipo:trayectoSeleccionado==="vueloRegreso"?"REGRESO":"IDA",vueloNuevoId:vueloSeleccionado.id})
+        });
+        const data=await resp.json();if(!resp.ok)throw Error(data.mensaje||"Error registrando solicitud.");
+        registrarSolicitud("CAMBIO DE VUELO",data.mensaje,data.diferencia,data.estado);
+        $("alternativasContainer").hidden=true;
+        mostrarMensaje(data.mensaje,"success");
+    }catch(e){mostrarMensaje(e.message,"error");}
 }
 
 function calcularTotalVuelos() {
@@ -466,69 +314,20 @@ function actualizarReembolso() {
     };
 }
 
-function solicitarCancelacion() {
-    if (!reserva) return;
-
-    if (reserva.estado === "CANCELADA") {
-        mostrarMensaje("Esta reserva ya está cancelada.", "error");
-        return;
-    }
-
-    if (reserva.estado !== "PAGADA - TIQUETES EMITIDOS") {
-        mostrarMensaje(
-            "Solo puedes cancelar reservas pagadas y con tiquetes emitidos.",
-            "error"
-        );
-        return;
-    }
-
-    if (reserva.solicitudCambioPendiente) {
-        mostrarMensaje(
-            "Existe un cambio de vuelo pendiente de pago. Resuelve esa solicitud antes de cancelar.",
-            "error"
-        );
-        return;
-    }
-
-    const calculo = actualizarReembolso();
-
-    const confirmar = window.confirm(
-        `¿Deseas cancelar esta reserva?\n\n` +
-        `Tarifa: ${calculo.tarifa}\n` +
-        `Reembolso estimado: ${formatoCOP(calculo.reembolso)}\n\n` +
-        `Esta operación es una simulación.`
-    );
-
-    if (!confirmar) return;
-
-    reserva.estado = "CANCELADA";
-
-    reserva.reembolso = {
-        tarifa: calculo.tarifa,
-        porcentaje: calculo.porcentaje * 100,
-        valorBase: calculo.totalVuelos,
-        valorReembolso: calculo.reembolso,
-        estado: calculo.reembolso > 0
-            ? "REEMBOLSO SOLICITADO"
-            : "SIN DERECHO A REEMBOLSO",
-        fecha: new Date().toISOString()
-    };
-
-    registrarSolicitud(
-        "CANCELACIÓN DE RESERVA",
-        `Reserva cancelada. Reembolso estimado: ${formatoCOP(calculo.reembolso)}. Estado: ${reserva.reembolso.estado}.`,
-        calculo.reembolso,
-        "CANCELADA"
-    );
-
-    $("estadoReserva").textContent = reserva.estado;
-    $("btnSolicitarCancelacion").disabled = true;
-    $("btnBuscarAlternativas").disabled = true;
-
-    mostrarMensaje(
-        `Reserva cancelada. ${reserva.reembolso.estado}: ${formatoCOP(calculo.reembolso)}.`,
-        "success"
-    );
+async function solicitarCancelacion(){
+    if(!reserva)return;
+    if(!window.confirm("¿Enviar solicitud de cancelación a MySQL? No se procesa un reembolso automáticamente."))return;
+    try{
+        const resp=await fetch(`http://localhost:3000/api/reservas/${encodeURIComponent(obtenerCodigo())}/cancelacion`,{
+            method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({apellido:reserva.pasajeros?.[0]?.apellidos,motivo:"Solicitud desde gestión de cambios"})
+        });
+        const data=await resp.json();if(!resp.ok)throw Error(data.mensaje||"No se pudo registrar.");
+        reserva.estado="CANCELACION_SOLICITADA";guardarReserva();
+        $("estadoReserva").textContent=reserva.estado;
+        $("btnSolicitarCancelacion").disabled=true;
+        registrarSolicitud("CANCELACIÓN",data.mensaje,0,"SOLICITADA");
+        mostrarMensaje(data.mensaje,"success");
+    }catch(e){mostrarMensaje(e.message,"error");}
 }
 
 $("tipoTrayecto").addEventListener("change", actualizarVueloActual);

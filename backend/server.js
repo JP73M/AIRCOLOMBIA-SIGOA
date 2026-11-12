@@ -52,6 +52,7 @@ app.use("/api/notificaciones", notificacionRoutes);
 
 const adminRoutes = require("./routes/adminRoutes");
 app.use("/api/admin", adminRoutes);
+app.use("/api/reservas", require("./routes/reservaRoutes"));
 
 
 app.get("/api/vuelos", async (req, res) => {

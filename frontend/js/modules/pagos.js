@@ -339,147 +339,59 @@ function mostrarResultado(resultado, transaccion) {
     paymentResult.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-function procesarPago() {
+async function procesarPago() {
     if (procesando) return;
-
     ocultarError();
-
     try {
         validarMetodoPago();
-
         procesando = true;
         payButton.disabled = true;
-        payButton.textContent = "Procesando demostración...";
-
+        payButton.textContent = "Guardando compra en MySQL...";
         const resultado = document.getElementById("simulationResult").value;
         const referencia = generarReferencia();
         const totales = calcularTotales();
-
-        const transaccion = {
-            referencia,
-            metodo: obtenerMetodo(),
-            estado: resultado,
-            monto: totales.total,
-            fecha: new Date().toISOString()
-        };
-
-        let estadoReserva;
-        let tiquetes = [];
-
-        if (resultado === "approved") {
-            estadoReserva = "PAGADA - TIQUETES EMITIDOS";
-
-            tiquetes = reserva.pasajeros.map((pasajero, indice) => ({
-                numero: generarNumeroTiquete(indice),
-                pasajero: `${pasajero.nombres} ${pasajero.apellidos}`,
-                documento: pasajero.documento,
-                vueloIda: reserva.vuelos.vueloIda.numero,
-                vueloRegreso: reserva.vuelos.vueloRegreso?.numero || null,
-                reserva: reserva.codigo,
-                fechaEmision: new Date().toISOString()
-            }));
-
-            transaccion.tiquetes = tiquetes;
-
-            const reservaFinal = guardarEstadoReserva(
-                estadoReserva,
-                transaccion
-            );
-
-            reservaFinal.tiquetes = tiquetes;
-
-            localStorage.setItem(
-                "aircolombia_reserva_actual",
-                JSON.stringify(reservaFinal)
-            );
-
-            localStorage.setItem(
-                `aircolombia_reserva_${reserva.codigo}`,
-                JSON.stringify(reservaFinal)
-            );
-
-        } else if (resultado === "pending") {
-            estadoReserva = "PAGO PENDIENTE";
-            guardarEstadoReserva(estadoReserva, transaccion);
-        } else if (resultado === "rejected") {
-            estadoReserva = "PAGO RECHAZADO";
-            guardarEstadoReserva(estadoReserva, transaccion);
-        } else {
-            estadoReserva = "ERROR DE COMUNICACIÓN";
-            guardarEstadoReserva(estadoReserva, transaccion);
+        const transaccion = { referencia, metodo: obtenerMetodo(), estado: resultado, monto: totales.total, fecha: new Date().toISOString() };
+        if (resultado !== "approved") {
+            const estados = {pending:"PAGO PENDIENTE",rejected:"PAGO RECHAZADO",error:"ERROR DE COMUNICACIÓN"};
+            const estado = estados[resultado] || "PAGO PENDIENTE";
+            guardarEstadoReserva(estado,transaccion);
+            mostrarResultado(resultado,{...transaccion,estado,tiquetes:[]});
+            return;
         }
-
-
-        setTimeout(async () => {
-
-            let correoEnviado = false;
-
-            if (resultado === "approved") {
-                try {
-                    const reservaFinal = JSON.parse(
-                        localStorage.getItem("aircolombia_reserva_actual")
-                    );
-
-                    const respuestaCorreo = await fetch(
-                        "http://localhost:3000/api/notificaciones/confirmacion",
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                reserva: reservaFinal.codigo,
-                                comprador: reservaFinal.comprador,
-                                pasajeros: reservaFinal.pasajeros,
-                                vueloIda: reservaFinal.vuelos.vueloIda,
-                                vueloRegreso: reservaFinal.vuelos.vueloRegreso,
-                                tiquetes,
-                                total: totales.total,
-                                referencia: transaccion.referencia
-                            })
-                        }
-                    );
-
-                    const resultadoCorreo = await respuestaCorreo.json();
-                    correoEnviado = respuestaCorreo.ok && resultadoCorreo.enviado;
-
-                    console.log(resultadoCorreo.mensaje);
-
-                } catch (error) {
-                    console.error("No se pudo enviar el correo:", error);
-                }
-            }
-
-            mostrarResultado(resultado, {
-                ...transaccion,
-                estado: estadoReserva,
-                tiquetes
+        const respuesta = await fetch("http://localhost:3000/api/reservas", {
+            method:"POST",headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({reserva,compra,metodo:obtenerMetodo(),referencia})
+        });
+        const datos = await respuesta.json();
+        if (!respuesta.ok) throw new Error(datos.mensaje || "No se pudo guardar la compra en MySQL.");
+        const tiquetes = datos.tiquetes;
+        transaccion.tiquetes = tiquetes;
+        transaccion.monto = datos.total;
+        const reservaFinal = guardarEstadoReserva("PAGADA - TIQUETES EMITIDOS",transaccion);
+        reservaFinal.tiquetes = tiquetes;
+        reservaFinal.totalCompra = datos.total;
+        localStorage.setItem("aircolombia_reserva_actual",JSON.stringify(reservaFinal));
+        localStorage.setItem(`aircolombia_reserva_${reserva.codigo}`,JSON.stringify(reservaFinal));
+        mostrarResultado("approved",{...transaccion,estado:"PAGADA - TIQUETES EMITIDOS",tiquetes});
+        payButton.textContent = "Compra guardada en MySQL";
+        try {
+            const correo = await fetch("http://localhost:3000/api/notificaciones/confirmacion",{
+                method:"POST",headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({reserva:reservaFinal.codigo,comprador:reservaFinal.comprador,pasajeros:reservaFinal.pasajeros,vueloIda:reservaFinal.vuelos.vueloIda,vueloRegreso:reservaFinal.vuelos.vueloRegreso,tiquetes,total:datos.total,referencia})
             });
-
-            if (resultado === "approved") {
-                const aviso = document.createElement("p");
-                aviso.textContent = correoEnviado
-                    ? "Confirmación enviada correctamente al correo del comprador."
-                    : "Compra confirmada, pero no se pudo enviar el correo. Revisa la configuración SMTP.";
-
-                paymentResult.appendChild(aviso);
-                payButton.textContent = "Pago completado";
-            } else {
-                payButton.disabled = false;
-                payButton.textContent = "Volver a intentar";
-            }
-
-            procesando = false;
-
-        }, 900);
-
-
-    } catch (error) {
-        procesando = false;
-        payButton.disabled = false;
-        payButton.textContent = "Confirmar y pagar";
-        mostrarError(error.message);
-    }
+            const info = await correo.json();
+            const aviso = document.createElement("p");
+            aviso.textContent = correo.ok && info.enviado ? "Confirmación enviada al correo." : "Compra guardada, pero el correo no pudo enviarse.";
+            paymentResult.appendChild(aviso);
+        } catch(e) {
+            console.warn("Correo no enviado:",e);
+            const aviso=document.createElement("p");aviso.textContent="Compra guardada en MySQL, pero no se pudo enviar el correo.";paymentResult.appendChild(aviso);
+        }
+    } catch(e) {
+        mostrarError(e.message || "Error registrando compra.");
+        payButton.disabled=false;
+        payButton.textContent="Confirmar y pagar";
+    } finally { procesando=false; }
 }
 
 document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {

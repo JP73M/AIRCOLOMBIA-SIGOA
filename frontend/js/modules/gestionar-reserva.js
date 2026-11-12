@@ -56,82 +56,22 @@ function mostrarMensaje(texto, tipo = "error") {
     mensaje.className = `form-message ${tipo}`;
 }
 
-formulario.addEventListener("submit", function(event) {
+formulario.addEventListener("submit", async function(event) {
     event.preventDefault();
-
-    const codigo = document
-        .getElementById("codigoReserva")
-        .value.trim()
-        .toUpperCase();
-
-    const apellidoIngresado = normalizarTexto(
-        document.getElementById("apellidoPasajero").value
-    );
-
-    mensaje.textContent = "";
-    resultado.hidden = true;
-    reservaEncontrada = null;
-
-    if (!codigo || !apellidoIngresado) {
-        mostrarMensaje("Completa todos los campos.");
-        return;
-    }
-
-    const reservaGuardada = localStorage.getItem(
-        `aircolombia_reserva_${codigo}`
-    );
-
-    if (!reservaGuardada) {
-        mostrarMensaje(
-            "No encontramos una reserva con ese código."
-        );
-        return;
-    }
-
+    const codigo=document.getElementById("codigoReserva").value.trim().toUpperCase();
+    const apellido=document.getElementById("apellidoPasajero").value.trim();
+    mensaje.textContent="";resultado.hidden=true;reservaEncontrada=null;
+    if(!codigo || !apellido){mostrarMensaje("Completa todos los campos.");return;}
     try {
-        const reserva = JSON.parse(reservaGuardada);
-
-        const pasajeros = reserva.pasajeros || [];
-
-        const pasajeroValido = pasajeros.some(pasajero => {
-            const apellidos = normalizarTexto(
-                obtenerApellido(pasajero)
-            );
-
-            // Acepta el apellido completo o uno de sus componentes.
-            const componentes = apellidos.split(" ");
-
-            return apellidos === apellidoIngresado ||
-                componentes.includes(apellidoIngresado);
-        });
-
-        if (!pasajeroValido) {
-            mostrarMensaje(
-                "El apellido no coincide con los pasajeros de la reserva."
-            );
-            return;
-        }
-
-        reservaEncontrada = reserva;
-
-        mostrarReserva(reserva);
-
-        resultado.hidden = false;
-
-        document.getElementById("mensajeAccion").textContent = "";
-
-        window.scrollTo({
-            top: resultado.offsetTop - 30,
-            behavior: "smooth"
-        });
-
-    } catch (error) {
-        console.error("Error consultando reserva:", error);
-
-        mostrarMensaje(
-            "No fue posible procesar la información de la reserva."
-        );
-    }
+        const response=await fetch(`http://localhost:3000/api/reservas/${encodeURIComponent(codigo)}?apellido=${encodeURIComponent(apellido)}`);
+        const data=await response.json();
+        if(!response.ok) throw new Error(data.mensaje || "Reserva no encontrada.");
+        reservaEncontrada=data.reserva;
+        localStorage.setItem(`aircolombia_reserva_${codigo}`,JSON.stringify(data.reserva));
+        mostrarReserva(data.reserva);resultado.hidden=false;
+        document.getElementById("mensajeAccion").textContent="";
+        window.scrollTo({top:resultado.offsetTop-30,behavior:"smooth"});
+    }catch(e){mostrarMensaje(e.message || "No se pudo consultar MySQL.");}
 });
 
 function mostrarReserva(reserva) {
@@ -274,46 +214,20 @@ document
         window.location.href = "cambios.html";
     });
 
-document
-    .getElementById("btnCancelarReserva")
-    .addEventListener("click", function() {
-
-        if (!reservaEncontrada) return;
-
-        const confirmar = confirm(
-            "¿Estás seguro de que deseas solicitar la cancelación de esta reserva?"
-        );
-
-        if (!confirmar) return;
-
-        const codigo = obtenerCodigo(reservaEncontrada);
-
-        if (reservaEncontrada.estado === "CANCELADA") {
-            document.getElementById("mensajeAccion").textContent =
-                "Esta reserva ya se encuentra cancelada.";
-            return;
-        }
-
-        reservaEncontrada.estado = "CANCELACIÓN SOLICITADA";
-
-        localStorage.setItem(
-            `aircolombia_reserva_${codigo}`,
-            JSON.stringify(reservaEncontrada)
-        );
-
-        localStorage.setItem(
-            "aircolombia_reserva_actual",
-            JSON.stringify(reservaEncontrada)
-        );
-
-        localStorage.setItem(
-            "aircolombia_reserva_gestion",
-            JSON.stringify(reservaEncontrada)
-        );
-
-        document.getElementById("estadoReserva").textContent =
-            reservaEncontrada.estado;
-
-        document.getElementById("mensajeAccion").textContent =
-            "La solicitud de cancelación fue registrada.";
-    });
+document.getElementById("btnCancelarReserva").addEventListener("click",async function(){
+    if(!reservaEncontrada)return;
+    if(!confirm("¿Deseas solicitar la cancelación de esta reserva?"))return;
+    const codigo=obtenerCodigo(reservaEncontrada);
+    const apellido=document.getElementById("apellidoPasajero").value.trim();
+    try{
+        const response=await fetch(`http://localhost:3000/api/reservas/${encodeURIComponent(codigo)}/cancelacion`,{
+            method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({apellido,motivo:"Solicitud del cliente desde la web"})
+        });
+        const data=await response.json();
+        if(!response.ok)throw new Error(data.mensaje||"No se pudo registrar la solicitud.");
+        reservaEncontrada.estado="CANCELACION_SOLICITADA";
+        document.getElementById("estadoReserva").textContent=reservaEncontrada.estado;
+        document.getElementById("mensajeAccion").textContent=data.mensaje;
+        localStorage.setItem(`aircolombia_reserva_${codigo}`,JSON.stringify(reservaEncontrada));
+    }catch(e){document.getElementById("mensajeAccion").textContent=e.message;}
+});
